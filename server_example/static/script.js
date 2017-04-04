@@ -25,6 +25,8 @@
                 var video = document.getElementById("self");
                 var canvas = document.getElementById('canvas_el');
                 var ctx = canvas.getContext("2d");
+                canvas.width  = video.width;
+                canvas.height = video.height;
                 ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
                 
                 var step = function(timestamp){
