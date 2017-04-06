@@ -18,13 +18,11 @@
     function my_init() {
 
         var canvas = document.getElementById('canvas_el');
-        
-        console.log('blah');
+        var ctx = canvas.getContext("2d");
+
         navigator.mediaDevices.getUserMedia({audio: true, video: true}).then(function(stream){
                 console.log('bla');
                 var video = document.getElementById("self");
-                var canvas = document.getElementById('canvas_el');
-                var ctx = canvas.getContext("2d");
                 canvas.width  = video.width;
                 canvas.height = video.height;
                 ctx.fillStyle = 'hsl(' + 360 * Math.random() + ', 50%, 50%)';
@@ -45,26 +43,29 @@
             console.log(error);
 
         });
+
         var canvas_stream = canvas.captureStream(24);
         easyrtc.register3rdPartyLocalMediaStream(canvas_stream, "canvas_stream");
-        console.log(easyrtc);
 
         easyrtc.setRoomOccupantListener( loggedInListener);
         var connectSuccess = function(myId) {
             console.log("My easyrtcid is " + myId);
         }
         var connectFailure = function(errorCode, errText) {
+            console.log('failure to connect');
             console.log(errText);
         }
         easyrtc.initMediaSource(
               function(){        // success callback
 
+                  console.log("before");
 
                   var selfVideo = document.getElementById("self");
                   //easyrtc.setVideoObjectSrc(selfVideo, easyrtc.getLocalStream());
                   easyrtc.setVideoObjectSrc(selfVideo, easyrtc.getLocalStream());
                   
                   easyrtc.connect("Company_Chat_Line", connectSuccess, connectFailure);
+                  console.log("after");
               },
               connectFailure 
         );
